@@ -1,0 +1,237 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: rgb(113, 113, 184);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+}
+
+body.office-background {
+  background: url('/images/officemeeting.jpg') center/cover no-repeat fixed;
+}
+
+body.students-background {
+  background: url('/images/students.jpg') center/cover no-repeat fixed;
+}
+
+body.library-background {
+  background: url('/images/library.jpg') center/cover no-repeat fixed;
+}
+
+body.gradient-background {
+  background: rgb(113, 113, 184);
+}
+
+
+.container {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 24px;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.header p {
+  font-size: 16px;
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chat-container {
+  height: 450px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+.chat-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+.message {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-content {
+  max-width: 75%;
+  padding: 14px 20px;
+  border-radius: 20px;
+  position: relative;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.message.user .message-content {
+  background: rgb(1, 1, 26);
+  color: white;
+  border-bottom-right-radius: 6px;
+}
+
+.message.ai .message-content {
+  background: white;
+  color: #2c3e50;
+  border-bottom-left-radius: 6px;
+  border: 1px solid #e8ecf1;
+}
+
+.controls {
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 16px 36px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  min-width: 160px;
+  position: relative;
+  overflow: hidden;
+}
+
+#startBtn {
+  background: rgb(122, 160, 122);
+  color: white;
+  box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+}
+
+#stopBtn {
+  background: #e74c3c;
+  color: white;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 15px;
+  border: 1px solid transparent;
+}
+
+.status.info {
+  background: lightblue;
+  color: #1565c0;
+  border-color: #90caf9;
+}
+
+.status.success {
+  background: lightgreen;
+  color: #2e7d32;
+  border-color: #81c784;
+}
+
+.status.error {
+  background: lightcoral;
+  color: #c62828;
+  border-color: #ef5350;
+}
+
+.status.recording {
+  background: lightgoldenrodyellow;
+  color: #e65100;
+  border-color: #ffb74d;
+  animation: pulse-status 1.5s ease-in-out infinite;
+}
+
+.typing-indicator {
+  display: none;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.typing-indicator.active {
+  display: flex;
+}
+
+.typing-dots {
+  background: white;
+  padding: 14px 20px;
+  border-radius: 20px;
+  border-bottom-left-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8ecf1;
+}
+
+.typing-dots span {
+  height: 10px;
+  width: 10px;
+  background: #2a5298;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 3px;
+}
+
+.instructions {
+  padding: 25px 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+  color: #5a6c7d;
+  text-align: center;
+}
+
+.instructions strong {
+  color: #2c3e50;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
