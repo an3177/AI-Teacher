@@ -12,8 +12,7 @@ logger = logging.getLogger(__name__)
 
 def get_database_url(settings: Settings) -> str:
     url = settings.database_url
-    
-    # Railway uses postgres:// but SQLAlchemy needs postgresql://
+
     if url.startswith('postgres://'):
         url = url.replace('postgres://', 'postgresql://', 1)
     

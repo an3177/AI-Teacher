@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     groq_api_key: str
     openai_api_key: str
 
-    database_url: str = "sqlite:///./ai_friend.db"
+    database_url: str
 
     model_config = SettingsConfigDict(
         # Look for .env file in project root
