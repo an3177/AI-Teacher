@@ -59,7 +59,6 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         # 1. Initialize database FIRST (critical for data persistence)
         logger.info("Initializing database")
         try:
-            # Run migrations using Alembic
             await asyncio.to_thread(init_database, settings)
             logger.info("Database initialized successfully")
         except Exception as db_error:
@@ -156,5 +155,5 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
                 logger.error(f"Error closing Groq client: {e}")
         
         logger.info("=" * 60)
-        logger.info("✅ APPLICATION SHUTDOWN COMPLETE")
+        logger.info("APPLICATION SHUTDOWN COMPLETE")
         logger.info("=" * 60)
