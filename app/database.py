@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def get_database_url(settings: Settings) -> str:
     url = settings.database_url
-
+    
     if url.startswith('postgres://'):
         url = url.replace('postgres://', 'postgresql://', 1)
     
