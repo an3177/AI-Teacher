@@ -181,8 +181,6 @@
         } else {
           protocol = 'ws:';  // not secure
         }
-        const host = window.location.host;
-        ws = new WebSocket(`${protocol}//${host}/voice_chat`);
         ws.binaryType = "arraybuffer";
 
         ws.onopen = () => {

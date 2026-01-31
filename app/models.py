@@ -1,4 +1,4 @@
-
+#apps/models.py
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Float
 from sqlalchemy.ext.declarative import declarative_base
@@ -13,8 +13,6 @@ class Session(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     session_token = Column(String(100), unique=True, index=True, nullable=False)
-    user_name = Column(String(100), nullable=True)
-    user_email = Column(String(255), nullable=True)
     background_choice = Column(String(50), nullable=True)
     started_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     ended_at = Column(DateTime, nullable=True)
