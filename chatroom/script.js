@@ -106,10 +106,10 @@
     let inactivityTimeout;
     let consecutiveSilenceFrames = 0;
     let countdownInterval;
-    const SILENCE_DURATION = 1000; 
+    const SILENCE_DURATION = 5000; 
     const INACTIVITY_DURATION = 60000; 
     const SILENCE_THRESHOLD = 50;
-    const FRAMES_FOR_SILENCE = 10;
+    const FRAMES_FOR_SILENCE = 50;
 
 // Function to start countdown for AI response
     function startCountdown(seconds) {
