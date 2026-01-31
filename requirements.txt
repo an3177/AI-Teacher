@@ -13,3 +13,4 @@ python-dotenv
 python-multipart
 websockets
 psycopg2-binary
+alembic

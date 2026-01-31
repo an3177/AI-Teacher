@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Interview Teacher - Setup</title>
+  <title>AI Teacher - Setup</title>
   <link rel="stylesheet" href="/background/welcome.css">
 </head>
 <body>
   <div class="welcome-container">
     <div class="welcome-header">
       <h1>AI Teacher</h1>
-      <p>Choose your environment to get started</p>
+      <p>Choose your environment to get started!</p>
     </div>
 
     <div class="background-grid">
       <div class="background-card" data-background="office">
-        <img src="/images/officemeeting.jpg" alt="Office">
+        <img src="/images/office.avif" alt="Office">
         <div class="card-overlay">
           <h3>Office</h3>
           <p>Professional workspace setting</p>
@@ -23,7 +23,7 @@
       </div>
 
       <div class="background-card" data-background="students">
-        <img src="/images/students.jpg" alt="Student Room">
+        <img src="/images/student.avif" alt="Student Room">
         <div class="card-overlay">
           <h3>Students Room</h3>
           <p>Informal learning environment</p>
@@ -31,7 +31,7 @@
       </div>
 
       <div class="background-card" data-background="library">
-        <img src="/images/library.jpg" alt="Library">
+        <img src="/images/booklibrary.avif" alt="Library">
         <div class="card-overlay">
           <h3>Library</h3>
           <p>Quiet and professional setting</p>
@@ -51,40 +51,6 @@
       <p class="hint">Select a background to continue</p>
     </div>
   </div>
-
-  <script>
-    const backgroundCards = document.querySelectorAll('.background-card');
-    const continueBtn = document.getElementById('continueBtn');
-    let selectedBackground = null;
-
-    backgroundCards.forEach(card => {
-      card.addEventListener('click', () => {
-        // Remove selected class from all cards
-        backgroundCards.forEach(c => c.classList.remove('selected'));
-        
-        // Add selected class to clicked card
-        card.classList.add('selected');
-        
-        // Get the background type
-        selectedBackground = card.getAttribute('data-background');
-        
-        // Enable continue button
-        continueBtn.disabled = false;
-        
-        // Update hint text
-        document.querySelector('.hint').textContent = 'Click continue when ready';
-      });
-    });
-
-    continueBtn.addEventListener('click', () => {
-      if (selectedBackground) {
-        // Store the selected background in localStorage
-        localStorage.setItem('selectedBackground', selectedBackground);
-        
-        // Redirect to the chat page
-        window.location.href = '/chatroom/index.html';
-      }
-    });
-  </script>
+ <script src="/background/script.js"></script>
 </body>
 </html>

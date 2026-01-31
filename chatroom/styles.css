@@ -17,19 +17,19 @@ body {
 }
 
 body.office-background {
-  background: url('/images/officemeeting.jpg') center/cover no-repeat fixed;
+  background: url('/images/office.avif') center/cover no-repeat fixed;
 }
 
 body.students-background {
-  background: url('/images/students.jpg') center/cover no-repeat fixed;
+  background: url('/images/student.avif') center/cover no-repeat fixed;
 }
 
 body.library-background {
-  background: url('/images/library.jpg') center/cover no-repeat fixed;
+  background: url('/images/booklibrary.avif') center/cover no-repeat fixed;
 }
 
 body.gradient-background {
-  background: rgb(113, 113, 184);
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
 }
 
 
@@ -73,7 +73,6 @@ body.gradient-background {
   overflow-x: hidden;
 }
 
-/* Custom scrollbar */
 .chat-container::-webkit-scrollbar {
   width: 8px;
 }

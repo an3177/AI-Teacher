@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
-
+#represent a user session and associated conversations
 class Session(Base):
 
     __tablename__ = "sessions"
@@ -24,7 +24,7 @@ class Session(Base):
     def __repr__(self):
         return f"<Session(id={self.id}, token={self.session_token}, active={self.is_active})>"
 
-
+#represent a conversation turn within a session
 class Conversation(Base):
     __tablename__ = "conversations"
     
@@ -41,16 +41,4 @@ class Conversation(Base):
     
     def __repr__(self):
         return f"<Conversation(id={self.id}, session_id={self.session_id})>"
-
-
-class Feedback(Base):
-    __tablename__ = "feedback"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False)
-    rating = Column(Integer, nullable=False)  # 1-5 stars
-    comment = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    
-    def __repr__(self):
-        return f"<Feedback(id={self.id}, session_id={self.session_id}, rating={self.rating})>"
+# Additional models can be added here as needed

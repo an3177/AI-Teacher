@@ -105,7 +105,7 @@ async def voice_chat(
             should_process = (total_buffered >= min_audio_size and incoming_audio_bytes == b'') or total_buffered >= max_buffer_size
             
             if not should_process and total_buffered < max_buffer_size:
-                logger.info(f"Buffering audio... ({total_buffered} bytes)")
+                logger.info(f"Buffering audio ({total_buffered} bytes)")
                 continue
             
             # Combine all buffered audio
@@ -128,7 +128,7 @@ async def voice_chat(
                 
                 # Skip if transcription is empty
                 if not transcription or len(transcription.strip()) == 0:
-                    logger.warning("Empty transcription, skipping...")
+                    logger.warning("Empty transcription")
                     continue
 
                 # Send transcription to frontend
@@ -138,7 +138,7 @@ async def voice_chat(
                 })
 
                 # Generate AI's response
-                logger.info("Generating AI response...")
+                logger.info("Generating AI response")
                 ai_response = ""
                 
                 async with agent.run_stream(
@@ -262,7 +262,7 @@ async def get_session_history(session_token: str):
 # API endpoint to get all sessions
 @app.get("/api/sessions")
 async def get_all_sessions(limit: int = 50):
-    """Get all practice sessions with conversation counts."""
+    #Get all practice sessions with conversation counts.
     settings = get_settings()
     SessionLocal = get_session_maker(settings)
     db = SessionLocal()
@@ -292,7 +292,7 @@ async def get_all_sessions(limit: int = 50):
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    """Health check endpoint to verify app and database are running"""
+    #Health check endpoint to verify app and database are running
     from sqlalchemy import text
     
     settings = get_settings()
