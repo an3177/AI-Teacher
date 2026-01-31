@@ -6,8 +6,7 @@ class Settings(BaseSettings):
     groq_api_key: str
     openai_api_key: str
 
-    # Database URL (Railway will provide this automatically)
-    database_url: str = "sqlite:///./ai_friend.db"  # Default fallback for local dev
+    database_url: str
 
     model_config = SettingsConfigDict(
         # Look for .env file in project root
