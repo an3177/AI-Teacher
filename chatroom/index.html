@@ -175,12 +175,7 @@
         updateStatus("Connecting...", "info");
 
         // Connect WebSocket
-        let protocol;
-        if (window.location.protocol === 'https:') {
-          protocol = 'wss:'; // secure
-        } else {
-          protocol = 'ws:';  // not secure
-        }
+        ws = new WebSocket("ws://localhost:8000/voice_chat");
         ws.binaryType = "arraybuffer";
 
         ws.onopen = () => {
@@ -286,7 +281,7 @@
             if (!isSpeaking) {
               isSpeaking = true;
               clearTimeout(silenceTimeout);
-              updateStatus(" Recording...", "recording");
+              updateStatus("Recording...", "recording");
             }
           }
           
