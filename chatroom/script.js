@@ -223,16 +223,14 @@
           // More robust silence detection using frequency analysis
           const lowFreq = dataArray.slice(0, dataArray.length / 3).reduce((a, b) => a + b) / (dataArray.length / 3);
           const midFreq = dataArray.slice(dataArray.length / 3, 2 * dataArray.length / 3).reduce((a, b) => a + b) / (dataArray.length / 3);
-          const voiceEnergy = Math.max(lowFreq, midFreq);
+          const voiceEnergy = Math.max(lowFreq, midFreq); // Voice typically in low-mid frequencies
           
           if (voiceEnergy < SILENCE_THRESHOLD) {
             // Potential silence
             consecutiveSilenceFrames++;
             if (consecutiveSilenceFrames >= FRAMES_FOR_SILENCE && isSpeaking) {
               isSpeaking = false;
-              console.log(`Silence detected, waiting ${SILENCE_DURATION}ms...`);
-              updateStatus(`Processing in ${SILENCE_DURATION/1000}s...`, "processing"); // ⬅️ ADD THIS LINE
-              
+              console.log(`Consistent silence detected (${consecutiveSilenceFrames} frames), waiting ${SILENCE_DURATION}ms before stopping...`);
               // Set timeout to stop recording if silence continues
               clearTimeout(silenceTimeout);
               silenceTimeout = setTimeout(() => {
@@ -244,7 +242,7 @@
             }
           } else {
             // Sound detected
-            consecutiveSilenceFrames = 0;
+            consecutiveSilenceFrames = 0; // Reset silence counter
             if (!isSpeaking) {
               isSpeaking = true;
               clearTimeout(silenceTimeout);
