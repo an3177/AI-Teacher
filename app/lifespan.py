@@ -29,11 +29,6 @@ def create_groq_client(settings: Settings) -> AsyncGroq:
     return AsyncGroq(api_key=settings.groq_api_key)
 
 
-# Create OpenAI client
-def create_openai_client(settings: Settings) -> AsyncOpenAI:
-    return AsyncOpenAI(api_key=settings.openai_api_key)
-
-
 # Create Groq model
 def create_groq_model(settings: Settings) -> GroqModel:
     # Create provider with API key
@@ -57,7 +52,6 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
     
     # Initialize variables
     aiohttp_session = None
-    openai_client = None
     groq_client = None
     groq_agent = None
     
@@ -65,6 +59,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         # 1. Initialize database FIRST (critical for data persistence)
         logger.info("Initializing database")
         try:
+            # Run migrations using Alembic
             await asyncio.to_thread(init_database, settings)
             logger.info("Database initialized successfully")
         except Exception as db_error:
@@ -79,8 +74,6 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         logger.info("Aiohttp session created")
         
         # 3. Initialize OpenAI client
-        logger.info(" Creating OpenAI client")
-        openai_client = create_openai_client(settings=settings)
         logger.info("OpenAI client created")
         
         # 4. Initialize Groq client
@@ -115,7 +108,6 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         
         # 7. Store everything in app.state for dependency injection
         app.state.aiohttp_session = aiohttp_session
-        app.state.openai_client = openai_client
         app.state.groq_client = groq_client
         app.state.groq_agent = groq_agent
         
@@ -126,7 +118,6 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         # Yield application state to FastAPI
         yield {
             "aiohttp_session": aiohttp_session,
-            "openai_client": openai_client,
             "groq_client": groq_client,
             "groq_agent": groq_agent,
         }
@@ -154,15 +145,6 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
                 logger.info("Aiohttp session closed")
             except Exception as e:
                 logger.error(f" Error closing aiohttp session: {e}")
-
-        # Close OpenAI client
-        if openai_client:
-            try:
-                logger.info(" Closing OpenAI client")
-                await openai_client.close()
-                logger.info(" OpenAI client closed")
-            except Exception as e:
-                logger.error(f" Error closing OpenAI client: {e}")
 
         # Close Groq client
         if groq_client:
