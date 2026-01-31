@@ -137,7 +137,9 @@
         updateStatus("Connecting...", "info");
 
         // Connect WebSocket
-        ws = new WebSocket("ws://localhost:8000/voice_chat");
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const host = window.location.host;
+        ws = new WebSocket(`${protocol}//${host}/voice_chat`);
         ws.binaryType = "arraybuffer";
 
         ws.onopen = () => {
