@@ -3,7 +3,7 @@ An AI-powered tutoring assistant that helps students learn concepts interactivel
 
 
 How It's Made:
-Tech used: HTML, CSS, JavaScript, FastAPI, API: Groq
+Tech used: HTML, CSS, JavaScript, FastAPI, SQL, API: Groq
 
 User can either ask about a concept or explain one such as recursion and derivatives. Based on what you say, the AI will explain the concept step-by-step or ask targeted questions. Based on responses it will corrects mistakes, give hints, and reinforce weak areas.
 This mimics how a real tutor teaches—not just giving solutions, but ensuring understanding.
