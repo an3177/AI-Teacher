@@ -289,9 +289,7 @@
       }
     }
 
-    startBtn.onclick = () => {
-      startContinuousListening();
-    };
+    startBtn.onclick = startContinuousListening;
 
     stopBtn.onclick = () => {
       clearTimeout(silenceTimeout);
