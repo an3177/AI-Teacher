@@ -22,13 +22,14 @@ from app.stt import transcribe_audio_data
 from app.database import get_session_maker
 from app.models import Session as DBSession, Conversation
 
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title="AI Friend - Voice Chat", lifespan=lifespan)
+app = FastAPI(title="AI Teacher - Voice Chat", lifespan=lifespan)
 
 # Thread pool for offloading blocking DB writes
 db_thread_pool = ThreadPoolExecutor(max_workers=4)
@@ -37,22 +38,22 @@ app.mount("/chatroom", StaticFiles(directory="chatroom"), name="chatroom")
 app.mount("/background", StaticFiles(directory="background"), name="background")
 app.mount("/images", StaticFiles(directory="images"), name="images")
 
-
+# Dependency to get agent dependencies from WebSocket
 async def get_agent_dependencies(websocket: WebSocket) -> Dependencies:
     return Dependencies(
         settings=get_settings(),
         session=websocket.app.state.aiohttp_session,
     )
 
-
+# Dependency to get Groq client from WebSocket
 async def get_groq_client(websocket: WebSocket) -> AsyncGroq:
     return websocket.app.state.groq_client
 
-
+# Dependency to get agent from WebSocket
 async def get_agent(websocket: WebSocket) -> Agent:
     return websocket.app.state.groq_agent
 
-
+# Blocking DB write function
 def _save_conversation_sync(SessionLocal, session_id, user_transcript, ai_response, audio_duration, processing_time):
     """Blocking DB write — runs in thread pool so it doesn't block the event loop."""
     db = SessionLocal()

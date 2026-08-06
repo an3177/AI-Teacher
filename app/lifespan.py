@@ -1,4 +1,4 @@
-# app/lifespan.py
+
 from contextlib import asynccontextmanager
 from typing import AsyncIterator, TypedDict
 import logging

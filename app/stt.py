@@ -1,4 +1,4 @@
-#app/stt.py
+
 from groq import AsyncGroq
 import logging
 import tempfile
@@ -28,7 +28,7 @@ async def transcribe_audio_data(
         
         # Open and send the file
         with open(temp_file_path, 'rb') as audio_file:
-            logger.info("Calling Groq transcription API...")
+            logger.info("Calling Groq transcription API")
             response = await api_client.audio.transcriptions.create(
                 model=model_name,
                 file=audio_file,
