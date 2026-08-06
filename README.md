@@ -29,7 +29,7 @@ Before running the project, make sure you have:
   ```
   pip install -r requirements.txt
   ```
-3. Get and add your API key from https://console.groq.com/keys to .env.example:
+3. Get and add your API key from https://console.groq.com/keys as well as your database url to .env.example:
   ```
   GROQ_API_KEY=your_groq_api_key_here
   ```
@@ -37,3 +37,5 @@ Before running the project, make sure you have:
    ```
    uvicorn app:app --reload
    ```
+
+   
