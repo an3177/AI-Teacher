@@ -38,4 +38,7 @@ Before running the project, make sure you have:
    uvicorn app:app --reload
    ```
 
+
+https://github.com/user-attachments/assets/85f6cdce-9d0c-42b3-88c8-9e64a6c7a49a
+
    
