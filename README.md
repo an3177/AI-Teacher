@@ -32,6 +32,7 @@ Before running the project, make sure you have:
 3. Get and add your API key from https://console.groq.com/keys as well as your database url to .env.example:
   ```
   GROQ_API_KEY=your_groq_api_key_here
+  DATABASE_URL=your_database_url_here
   ```
 4. Run the application
    ```
