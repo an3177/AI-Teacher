@@ -14,7 +14,7 @@ from pydantic_ai.providers.groq import GroqProvider
 
 from app.llm import Dependencies, create_groq_agent
 from app.settings import Settings, get_settings
-from app.database import init_database  # Import database initialization
+from app.database import init_database 
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ def create_groq_client(settings: Settings) -> AsyncGroq:
 
 # Create Groq model
 def create_groq_model(settings: Settings) -> GroqModel:
-    # Create provider with API key
+
     provider = GroqProvider(api_key=settings.groq_api_key)
     return GroqModel("llama-3.3-70b-versatile", provider=provider)
 
@@ -50,13 +50,13 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
     logger.info(" Starting app")
     settings = get_settings()
     
-    # Initialize variables
+
     aiohttp_session = None
     groq_client = None
     groq_agent = None
     
     try:
-        # 1. Initialize database FIRST (critical for data persistence)
+
         logger.info("Initializing database")
         try:
             await asyncio.to_thread(init_database, settings)
@@ -65,27 +65,27 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
             logger.error(f"Database initialization failed: {db_error}")
             import traceback
             traceback.print_exc()
-            # Continue anyway - app can work without DB
+     
         
-        # 2. Initialize aiohttp session
+  
         logger.info(" Creating aiohttp session")
         aiohttp_session = create_aiohttp_session()
         logger.info("Aiohttp session created")
         
-        # 3. Initialize OpenAI client
+ 
         logger.info("OpenAI client created")
         
-        # 4. Initialize Groq client
+
         logger.info("Creating Groq client")
         groq_client = create_groq_client(settings=settings)
         logger.info("Groq client created")
         
-        # 5. Initialize Groq model
+
         logger.info(" Creating Groq model...")
         _groq_model = create_groq_model(settings=settings)
         logger.info("Groq model created")
         
-        # 6. Initialize AI agent with system prompt
+
         logger.info("Creating AI teacher agent...")
         groq_agent = create_groq_agent(
             groq_model=_groq_model,
@@ -105,8 +105,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         )
         logger.info("AI agent created")
         
-        # 7. Store everything in app.state for dependency injection
-        app.state.aiohttp_session = aiohttp_session
+     app.state.aiohttp_session = aiohttp_session
         app.state.groq_client = groq_client
         app.state.groq_agent = groq_agent
         
@@ -114,7 +113,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         logger.info("APPLICATION STARTUP COMPLETE")
         logger.info("=" * 60)
         
-        # Yield application state to FastAPI
+
         yield {
             "aiohttp_session": aiohttp_session,
             "groq_client": groq_client,
@@ -122,7 +121,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         }
     
     except Exception as e:
-        # Log startup errors with full traceback
+
         logger.error("=" * 60)
         logger.error(f"STARTUP ERROR: {type(e).__name__}: {e}")
         logger.error("=" * 60)
@@ -131,12 +130,12 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         raise
 
     finally:
-        # Cleanup resources on shutdown
+
         logger.info("=" * 60)
         logger.info("Shutting down application")
         logger.info("=" * 60)
         
-        # Close aiohttp session
+
         if aiohttp_session:
             try:
                 logger.info("Closing aiohttp session")
@@ -145,7 +144,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
             except Exception as e:
                 logger.error(f" Error closing aiohttp session: {e}")
 
-        # Close Groq client
+
         if groq_client:
             try:
                 logger.info("Closing Groq client")
