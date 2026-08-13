@@ -1,10 +1,10 @@
-// Load selected background
+
     const selectedBackground = localStorage.getItem('selectedBackground');
     if (selectedBackground) {
       document.body.className = selectedBackground + '-background';
     }
 
-    //adding variables
+
     const startBtn = document.getElementById("startBtn");
     const stopBtn = document.getElementById("stopBtn");
     const chatContainer = document.getElementById("chatContainer");
@@ -18,14 +18,14 @@
     let isPlaying = false;
     let recordedChunks = [];
 
-    // Function to update status messages
+
     function updateStatus(message, type = 'info') {
       statusDiv.textContent = message;
       statusDiv.className = `status ${type}`;
       console.log(`[${type.toUpperCase()}] ${message}`);
     }
 
-    // Function to add messages to chat
+
     function addMessage(text, isUser = true) {
       const messageDiv = document.createElement('div');
       if (isUser) {
@@ -155,12 +155,12 @@
             if (data.type === 'user_transcript') {
               addMessage(data.text, true);
               showTyping(true);
-              startCountdown(5); // Estimate 5 seconds for AI to think
+              startCountdown(5)
             } else if (data.type === 'ai_transcript') {
               clearInterval(countdownInterval);
               showTyping(false);
               addMessage(data.text, false);
-              // Resume listening after AI response
+
               updateStatus("Listening...", "recording");
               startRecording();
             }
