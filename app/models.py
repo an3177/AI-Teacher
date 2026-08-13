@@ -33,12 +33,11 @@ class Conversation(Base):
     user_transcript = Column(Text, nullable=False)
     ai_response = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    audio_duration = Column(Float, nullable=True)  # Duration of user's speech in seconds
-    processing_time = Column(Float, nullable=True)  # Time to process and respond
+    audio_duration = Column(Float, nullable=True)  
+    processing_time = Column(Float, nullable=True)
     
     # Relationship to session
     session = relationship("Session", back_populates="conversations")
     
     def __repr__(self):
         return f"<Conversation(id={self.id}, session_id={self.session_id})>"
-# Additional models can be added here as needed
