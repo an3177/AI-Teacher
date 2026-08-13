@@ -29,9 +29,9 @@ def create_db_engine(settings: Settings):
         poolclass=QueuePool,
         pool_size=5,
         max_overflow=10,
-        pool_pre_ping=True,  # Test connection health before using
-        pool_recycle=3600,   # Recycle connections after 1 hour
-        echo=False,          # Set to True for SQL query logging (debugging)
+        pool_pre_ping=True,  
+        pool_recycle=3600,  
+        echo=False,        
     )
     
     return engine
@@ -43,11 +43,10 @@ def init_database(settings: Settings):
     logger.info("Initializing database tables")
     
     try:
-        # Create all tables
+
         Base.metadata.create_all(bind=engine)
         logger.info("Database tables created successfully")
-        
-        # Test the connection
+    
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
             logger.info("Database connection verified")
