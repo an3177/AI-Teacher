@@ -105,7 +105,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         )
         logger.info("AI agent created")
         
-     app.state.aiohttp_session = aiohttp_session
+        app.state.aiohttp_session = aiohttp_session
         app.state.groq_client = groq_client
         app.state.groq_agent = groq_agent
         
