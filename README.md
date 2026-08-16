@@ -19,10 +19,6 @@ Before running the project, make sure you have:
 - Git
 - A Groq API key (or other LLM API key, depending on your configuration)
 
-### Dev tools (optional)
-This project was built with [Claude Code](https://claude.com/claude-code). To install:
-npm install -g @anthropic-ai/claude-code
-
 ### Installation
 
 1. Clone the respitory
