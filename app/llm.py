@@ -1,9 +1,8 @@
 
 from dataclasses import dataclass
-from typing import Literal, TypeAlias
 
 import aiohttp
-from pydantic_ai import Agent, RunContext, Tool
+from pydantic_ai import Agent, Tool
 from pydantic_ai.models.groq import GroqModel
 
 from app.settings import Settings
