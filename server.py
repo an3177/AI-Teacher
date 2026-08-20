@@ -212,68 +212,6 @@ async def get_welcome():
 async def get_chat():
     with Path("chatroom/index.html").open("r", encoding="utf-8") as file:
         return HTMLResponse(file.read())
-        
-@app.get("/api/sessions/{session_token}")
-async def get_session_history(session_token: str):
-    """Get conversation history for a specific session."""
-    settings = get_settings()
-    SessionLocal = get_session_maker(settings)
-    db = SessionLocal()
-
-    try:
-        session = db.query(DBSession).filter(DBSession.session_token == session_token).first()
-        if not session:
-            return {"error": "Session not found"}
-
-        conversations = db.query(Conversation).filter(Conversation.session_id == session.id).all()
-
-        return {
-            "session_token": session.session_token,
-            "started_at": session.started_at.isoformat() if session.started_at else None,
-            "ended_at": session.ended_at.isoformat() if session.ended_at else None,
-            "is_active": session.is_active,
-            "conversation_count": len(conversations),
-            "conversations": [
-                {
-                    "user_transcript": conv.user_transcript,
-                    "ai_response": conv.ai_response,
-                    "created_at": conv.created_at.isoformat() if conv.created_at else None,
-                    "processing_time": conv.processing_time
-                }
-                for conv in conversations
-            ]
-        }
-    finally:
-        db.close()
-
-
-@app.get("/api/sessions")
-async def get_all_sessions(limit: int = 50):
-    """Get all practice sessions with conversation counts."""
-    settings = get_settings()
-    SessionLocal = get_session_maker(settings)
-    db = SessionLocal()
-
-    try:
-        sessions = db.query(DBSession).order_by(DBSession.started_at.desc()).limit(limit).all()
-
-        result = []
-        for session in sessions:
-            conv_count = db.query(Conversation).filter(Conversation.session_id == session.id).count()
-            result.append({
-                "session_token": session.session_token,
-                "started_at": session.started_at.isoformat() if session.started_at else None,
-                "ended_at": session.ended_at.isoformat() if session.ended_at else None,
-                "is_active": session.is_active,
-                "conversation_count": conv_count
-            })
-
-        return {
-            "total_sessions": len(result),
-            "sessions": result
-        }
-    finally:
-        db.close()
 
 
 @app.get("/health")
