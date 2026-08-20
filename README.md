@@ -39,8 +39,6 @@ Before running the project, make sure you have:
    uvicorn app:app --reload
    ```
 ### Live App Demo
-https://ai-teacher-production-ed95.up.railway.app/
-The application is also configured for production deployment.
 
 https://github.com/user-attachments/assets/85f6cdce-9d0c-42b3-88c8-9e64a6c7a49a
 
