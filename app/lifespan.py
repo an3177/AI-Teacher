@@ -7,7 +7,6 @@ import asyncio
 import aiohttp
 from fastapi import FastAPI
 from groq import AsyncGroq
-from openai import AsyncOpenAI
 from pydantic_ai import Agent
 from pydantic_ai.models.groq import GroqModel
 from pydantic_ai.providers.groq import GroqProvider
@@ -40,7 +39,6 @@ def create_groq_model(settings: Settings) -> GroqModel:
 class State(TypedDict):
     aiohttp_session: aiohttp.ClientSession
     groq_client: AsyncGroq
-    openai_client: AsyncOpenAI
     groq_agent: Agent[Dependencies]
 
 
