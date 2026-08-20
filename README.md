@@ -13,6 +13,7 @@ Groq API - Generates "teacher/tutor" like responses to the user based on what th
 
 ## Getting Started
 
+### Note: llama-3.3-70b-versatile is no longer available, code will be updated using a new model soon. if demoed, code will not work because of this.
 Before running the project, make sure you have:
 
 - Python
