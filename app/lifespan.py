@@ -70,14 +70,6 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         aiohttp_session = create_aiohttp_session()
         logger.info("Aiohttp session created")
         
- 
-        logger.info("OpenAI client created")
-        
-
-        logger.info("Creating Groq client")
-        groq_client = create_groq_client(settings=settings)
-        logger.info("Groq client created")
-        
 
         logger.info(" Creating Groq model...")
         _groq_model = create_groq_model(settings=settings)
