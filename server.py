@@ -52,6 +52,9 @@ async def get_groq_client(websocket: WebSocket) -> AsyncGroq:
 # Dependency to get agent from WebSocket
 async def get_agent(websocket: WebSocket) -> Agent:
     return websocket.app.state.groq_agent
+    
+async def get_session_local(websocket: WebSocket) -> sessionmaker:
+    return websocket.app.state.db_sessionmaker
 
 # Blocking DB write function
 def _save_conversation_sync(SessionLocal, session_id, user_transcript, ai_response, audio_duration, processing_time):
@@ -81,12 +84,11 @@ async def voice_chat(
     groq_client: AsyncGroq = Depends(get_groq_client),
     agent: Agent[Dependencies] = Depends(get_agent),
     agent_deps: Dependencies = Depends(get_agent_dependencies),
+    SessionLocal: sessionmaker = Depends(get_session_local),
 ):
     await websocket.accept()
     logger.info("WebSocket connection accepted")
 
-    settings = get_settings()
-    SessionLocal = get_session_maker(settings)
 
     # Create session
     db = SessionLocal()
@@ -212,35 +214,3 @@ async def get_welcome():
 async def get_chat():
     with Path("chatroom/index.html").open("r", encoding="utf-8") as file:
         return HTMLResponse(file.read())
-
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint to verify app and database are running."""
-    from sqlalchemy import text
-
-    settings = get_settings()
-    SessionLocal = get_session_maker(settings)
-    db = SessionLocal()
-
-    try:
-        db.execute(text("SELECT 1"))
-
-        session_count = db.query(DBSession).count()
-        conversation_count = db.query(Conversation).count()
-
-        return {
-            "status": "healthy",
-            "database": "connected",
-            "total_sessions": session_count,
-            "total_conversations": conversation_count
-        }
-    except Exception as e:
-        logger.error(f"Health check failed: {e}")
-        return {
-            "status": "unhealthy",
-            "database": "disconnected",
-            "error": str(e)
-        }
-    finally:
-        db.close()
