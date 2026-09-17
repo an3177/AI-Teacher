@@ -45,7 +45,7 @@ class State(TypedDict):
 @asynccontextmanager
 async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
     """FastAPI lifespan manager - handles startup and shutdown"""
-    logger.info(" Starting app")
+    logger.info("Starting app")
     settings = get_settings()
     
 
@@ -66,10 +66,13 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
      
         
   
-        logger.info(" Creating aiohttp session")
+        logger.info("Creating aiohttp session")
         aiohttp_session = create_aiohttp_session()
         logger.info("Aiohttp session created")
-        
+
+        logger.info("Creating Groq client")
+        groq_client = create_groq_client(settings=settings)
+        logger.info("Groq client created")
 
         logger.info(" Creating Groq model...")
         _groq_model = create_groq_model(settings=settings)
@@ -132,7 +135,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
                 await aiohttp_session.close()
                 logger.info("Aiohttp session closed")
             except Exception as e:
-                logger.error(f" Error closing aiohttp session: {e}")
+                logger.error(f"Error closing aiohttp session: {e}")
 
 
         if groq_client:
