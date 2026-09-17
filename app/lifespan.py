@@ -13,7 +13,8 @@ from pydantic_ai.providers.groq import GroqProvider
 
 from app.llm import Dependencies, create_groq_agent
 from app.settings import Settings, get_settings
-from app.database import init_database 
+from app.database import init_database, create_db_engine
+from sqlalchemy.orm import sessionmaker
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ class State(TypedDict):
     aiohttp_session: aiohttp.ClientSession
     groq_client: AsyncGroq
     groq_agent: Agent[Dependencies]
+    db_sessionmaker: sessionmaker
 
 
 @asynccontextmanager
@@ -52,6 +54,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
     aiohttp_session = None
     groq_client = None
     groq_agent = None
+    engine = None
     
     try:
 
@@ -63,6 +66,9 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
             logger.error(f"Database initialization failed: {db_error}")
             import traceback
             traceback.print_exc()
+            
+        engine = create_db_engine(settings)
+        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
      
         
   
@@ -101,6 +107,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         app.state.aiohttp_session = aiohttp_session
         app.state.groq_client = groq_client
         app.state.groq_agent = groq_agent
+        app.state.db_sessionmaker = SessionLocal 
         
         logger.info("=" * 60)
         logger.info("APPLICATION STARTUP COMPLETE")
@@ -111,6 +118,7 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
             "aiohttp_session": aiohttp_session,
             "groq_client": groq_client,
             "groq_agent": groq_agent,
+            "db_sessionmaker": SessionLocal, 
         }
     
     except Exception as e:
@@ -127,6 +135,13 @@ async def app_lifespan(app: FastAPI) -> AsyncIterator[State]:
         logger.info("=" * 60)
         logger.info("Shutting down application")
         logger.info("=" * 60)
+        if engine:                        
+            try:
+                logger.info("Disposing database engine")
+                engine.dispose()
+                logger.info("Database engine disposed")
+            except Exception as e:
+                logger.error(f"Error disposing database engine: {e}")
         
 
         if aiohttp_session:
